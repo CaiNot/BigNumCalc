@@ -139,11 +139,15 @@ public:
     }
 
     string multipy(string v, string n) {
-        if (v.size() + n.size() > 10 && v.size() && n.size()) {
+        if (v.size() > 4 && v.size() && n.size()) {
             int x = v.size() / 2;
             bool isNe = 0;
             string a = v.substr(0, x), b = v.substr(x, v.size());
             string c = n.substr(0, x), d = n.substr(x, n.size());
+            this->strip(a,'0');
+            this->strip(b,'0');
+            this->strip(c,'0');
+            this->strip(d,'0');
 
             string re1, re2, re3;
 
@@ -187,8 +191,6 @@ public:
                 result = -result;
             return to_string(result);
         }
-
-
     }
 
     string operator+(BigNum n) {
@@ -225,8 +227,11 @@ public:
         string result = "";
         bool isNe = n.getIsNegative() ^this->isNegative;
 
-        result = (isNe ? "-" : "") + this->multipy(this->value, n.value);
-
+        if (n.getValue().size() == this->value.size()) {
+            result = (isNe ? "-" : "") + this->multipy(this->value, n.value);
+        } else {
+            result = "size is not equal.";
+        }
         return result;
     }
 
@@ -281,8 +286,8 @@ int main() {
 
     cout << n1 + n2 << endl;
     cout << n1 - n2 << endl;
-    n1 = "-12345678910";
-    n2 = "-72345678910";
+    n1 = "99999999999999999";
+    n2 = "99999999999999999";
     cout << n1 * n2 << endl;
     cout << multiply(n1.getValue(), n2.getValue()) << endl;
     return 0;
