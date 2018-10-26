@@ -76,6 +76,14 @@ public:
     }
 
     string add(string v, string n, bool isC) {
+//        this->strip(v, '0');
+//        this->strip(n, '0');
+//        if (!v.size()) {
+//            v = "0";
+//        }
+//        if (!n.size()) {
+//            n = "0";
+//        }
         int lenV = v.size(), lenN = n.size();
         string result = "";
         int s = 0, c = isC;
@@ -102,7 +110,16 @@ public:
     }
 
     string sub(string v, string n) {
+        this->strip(v, '0');
+        this->strip(n, '0');
+        if (!v.size()) {
+            v = "0";
+        }
+        if (!n.size()) {
+            n = "0";
+        }
         int lenV = v.size(), lenN = n.size();
+
         string result = "";
         int s = 0, c = 0;// ½á¹û ½èÎ»
         char ch = 0;
@@ -139,15 +156,18 @@ public:
     }
 
     string multipy(string v, string n) {
+        if (n.size() < v.size()) {
+            n = extend("0", v.size() - n.size()) + n;
+        } else {
+            v = extend("0", n.size() - v.size()) + v;
+        }
+
         if (v.size() > 4 && v.size() && n.size()) {
             int x = v.size() / 2;
             bool isNe = 0;
             string a = v.substr(0, x), b = v.substr(x, v.size());
             string c = n.substr(0, x), d = n.substr(x, n.size());
-            this->strip(a, '0');
-            this->strip(b, '0');
-            this->strip(c, '0');
-            this->strip(d, '0');
+
 
             string re1, re2, re3;
 
@@ -182,11 +202,15 @@ public:
             int v_i = 0, n_i = 0;
             if (v.size()) {
                 v_i = stoi(v);
+                if (!v_i)
+                    return "0";
             } else {
                 return "0";
             }
             if (n.size()) {
                 n_i = stoi(n);
+                if (!n_i)
+                    return "0";
             } else {
                 return "0";
             }
@@ -231,12 +255,13 @@ public:
         string result = "";
         bool isNe = n.getIsNegative() ^this->isNegative;
 
-        if (n.getValue().size() == this->value.size()) {
-            result = (isNe ? "-" : "") + this->multipy(this->value, n.value);
-        } else {
-            result = "size is not equal.";
-        }
-        return result;
+        result = this->multipy(this->value, n.value);
+        this->strip(result, '0');
+        if (result.size()) {
+            return (isNe ? "-" : "") + result;
+        } else
+            return "0";
+
     }
 
 };
@@ -290,8 +315,8 @@ int main() {
 
     cout << n1 + n2 << endl;
     cout << n1 - n2 << endl;
-    n1 = "99999999999999999";
-    n2 = "99999999999999999";
+    n1 = "9999";
+    n2 = "995437895792999999923199";
     cout << n1 * n2 << endl;
     cout << multiply(n1.getValue(), n2.getValue()) << endl;
     return 0;
