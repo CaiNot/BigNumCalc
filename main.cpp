@@ -156,14 +156,14 @@ public:
                     re2_B = this->sub(d, c);
 
             if (re2_A[0] == '-' && re2_B[0] == '-') {
-                this->strip(re2_A, '-');
-                this->strip(re2_B, '-');
+
             } else if (re2_A[0] != '-' && re2_B[0] != '-') {
 
             } else {
                 isNe = 1;
             }
-
+            this->strip(re2_A, '-');
+            this->strip(re2_B, '-');
             re2 = (isNe ? "-" : "") + this->multipy(re2_A, re2_B);
 
             BigNum n1 = re1, n2 = re2, n3 = re3;
@@ -171,8 +171,8 @@ public:
             n2 = re2;
             re2 = n2 + n3;
 
-            re1 = re1 + extend("0", v.size());
-            re2 = re2 + extend("0", x);
+            re1 = re1 + extend("0", (v.size() - x) * 2);
+            re2 = re2 + extend("0", v.size() - x);
             return this->add(this->add(re1, re2, 0), re3, 0);
         } else {
             int v_i = 0, n_i = 0;
@@ -221,6 +221,14 @@ public:
         return result;
     }
 
+    string operator*(BigNum n) {
+        string result = "";
+        bool isNe = n.getIsNegative() ^this->isNegative;
+
+        result = (isNe ? "-" : "") + this->multipy(this->value, n.value);
+
+        return result;
+    }
 
 };
 
@@ -273,8 +281,9 @@ int main() {
 
     cout << n1 + n2 << endl;
     cout << n1 - n2 << endl;
-    n1 = "12345678910";
-    n2 = "72345678910";
-    cout << n1.multipy(n1.getValue(), n2.getValue()) << endl;
+    n1 = "-12345678910";
+    n2 = "-72345678910";
+    cout << n1 * n2 << endl;
+    cout << multiply(n1.getValue(), n2.getValue()) << endl;
     return 0;
 }
