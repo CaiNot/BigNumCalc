@@ -144,10 +144,10 @@ public:
             bool isNe = 0;
             string a = v.substr(0, x), b = v.substr(x, v.size());
             string c = n.substr(0, x), d = n.substr(x, n.size());
-            this->strip(a,'0');
-            this->strip(b,'0');
-            this->strip(c,'0');
-            this->strip(d,'0');
+            this->strip(a, '0');
+            this->strip(b, '0');
+            this->strip(c, '0');
+            this->strip(d, '0');
 
             string re1, re2, re3;
 
@@ -182,9 +182,13 @@ public:
             int v_i = 0, n_i = 0;
             if (v.size()) {
                 v_i = stoi(v);
+            } else {
+                return "0";
             }
             if (n.size()) {
                 n_i = stoi(n);
+            } else {
+                return "0";
             }
             int result = v_i * n_i;
             if (result < 0)
