@@ -2,8 +2,10 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <fstream>
 #include <windows.h>
 #include <time.h>
+#include <sstream>
 
 using namespace std;
 
@@ -297,36 +299,88 @@ string multiply(string num1, string num2) {
     return ans;
 }
 
+class Data {
+public:
+
+    bool rwToFile(string path) {
+        ifstream infile(path);
+        ofstream outfile("out.dat");
+
+        if (!infile.is_open() || !outfile.is_open()) {
+            cout << "File Open Error" << endl;
+            return false;
+        }
+
+        string line, result;
+        stringstream ss;
+
+        int groups = 0;
+        string x, y;
+        int operation = 0;
+
+        getline(infile, line);
+        ss.clear();
+        ss.str(line);
+        ss >> groups;
+        if (ss.fail()) {
+            cout << "File Read Error" << endl;
+            return false;
+        }
+        BigNum xNum("0"), yNum("0");
+        for (int i = 0; i < groups; i++) {
+            if (i != 0)
+                outfile << endl;
+            getline(infile, line);
+            ss.clear();
+            ss.str(line);
+            ss >> x >> y >> operation;
+            if (ss.fail()) {
+                cout << "File Read Error" << endl;
+                return false;
+            }
+            xNum = x;
+            yNum = y;
+            switch (operation) {
+                case 1:
+                    result = xNum + yNum;
+
+                    cout << x << " + " << y << " = " << result << endl;
+                    outfile << result;
+                    break;
+                case 2:
+                    result = xNum - yNum;
+                    cout << x << " - " << y << " = " << result << endl;
+                    outfile << result;
+                    break;
+                case 3:
+                    result = xNum * yNum;
+                    cout << x << " * " << y << " = " << result << endl;
+                    outfile << result;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+};
+
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-//    cout << multiply("5", "12") << endl;
-//    cout << multiply("0", "6") << endl;
-//    cout << multiply("9999999999999", "9") << endl;
-    BigNum n1("999999999"), n2("99999999999999999999999");
-
-    n1 = "111111111";
-    n2 = "111111111";
-
-    cout << n1 + n2 << endl;
-    cout << n1 - n2 << endl;
-//    n1 = "0";
-//    n2 = "0";
-    string result;
-    DWORD start, end;
-    DWORD totalTime;
-
-    start = GetTickCount();
-    result = n1 * n2;
-    end = GetTickCount();
-    cout << result << endl;
-    cout << "分治法时间: " << end - start << endl;
-
-    start = GetTickCount();
-    result = multiply(n1.getValue(), n2.getValue());
-    end = GetTickCount();
-    cout << result << endl;
-    cout << "模拟手算时间: " << end - start << endl;
-
-//    cout <<  << endl;
+//    BigNum n1("999999999"), n2("99999999999999999999999");
+//
+//    n1 = "111111111";
+//    n2 = "111111111";
+//
+//    cout << n1 + n2 << endl;
+//    cout << n1 - n2 << endl;
+//    string result;
+//
+//    result = n1 * n2;
+//    cout << result << endl;
+//
+//    result = multiply(n1.getValue(), n2.getValue());
+//    cout << result << endl;
+    Data d;
+    d.rwToFile("in.dat");
     return 0;
 }
