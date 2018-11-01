@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <vector>
 #include <fstream>
-#include <windows.h>
-#include <time.h>
 #include <sstream>
 
 using namespace std;
@@ -262,46 +260,8 @@ public:
 
 };
 
-string multiply(string num1, string num2) {
-    int length1 = num1.size(), length2 = num2.size(), value = length1 + length2;
-    if (num1 == "0" || num2 == "0")
-        return "0";
-
-    int num1_int[length1], num2_int[length2], num3_int[value];
-    for (int i = 0; i < value; i++) {
-        num3_int[i] = 0;
-    }
-    for (int i = 0; i < length1; i++) {
-        num1_int[i] = num1[i] - '0';
-    }
-    for (int i = 0; i < length2; i++) {
-        num2_int[i] = num2[i] - '0';
-    }
-
-    for (int i = 0; i < length1; i++) {
-        for (int j = 0; j < length2; j++) {
-            num3_int[i + j + 1] += num1_int[i] * num2_int[j];
-        }
-    }
-    for (int i = value - 1; i > 0; i--) {
-        if (num3_int[i] >= 10) {
-            num3_int[i - 1] += num3_int[i] / 10;
-            num3_int[i] %= 10;
-        }
-    }
-    string ans = "";
-    int i = 0;
-    if (num3_int[0] == 0)
-        i = 1;
-    for (; i < value; i++) {
-        ans += to_string(num3_int[i]);
-    }
-    return ans;
-}
-
 class Data {
 public:
-
     bool rwToFile(string path) {
         ifstream infile(path);
         ofstream outfile("out.dat");
@@ -366,20 +326,7 @@ public:
 };
 
 int main() {
-//    BigNum n1("999999999"), n2("99999999999999999999999");
-//
-//    n1 = "111111111";
-//    n2 = "111111111";
-//
-//    cout << n1 + n2 << endl;
-//    cout << n1 - n2 << endl;
-//    string result;
-//
-//    result = n1 * n2;
-//    cout << result << endl;
-//
-//    result = multiply(n1.getValue(), n2.getValue());
-//    cout << result << endl;
+
     Data d;
     d.rwToFile("in.dat");
     return 0;
