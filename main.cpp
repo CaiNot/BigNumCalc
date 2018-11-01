@@ -2,6 +2,8 @@
 #include <string>
 #include <algorithm>
 #include <vector>
+#include <windows.h>
+#include <time.h>
 
 using namespace std;
 
@@ -76,14 +78,7 @@ public:
     }
 
     string add(string v, string n, bool isC) {
-//        this->strip(v, '0');
-//        this->strip(n, '0');
-//        if (!v.size()) {
-//            v = "0";
-//        }
-//        if (!n.size()) {
-//            n = "0";
-//        }
+
         int lenV = v.size(), lenN = n.size();
         string result = "";
         int s = 0, c = isC;
@@ -261,7 +256,6 @@ public:
             return (isNe ? "-" : "") + result;
         } else
             return "0";
-
     }
 
 };
@@ -310,14 +304,29 @@ int main() {
 //    cout << multiply("9999999999999", "9") << endl;
     BigNum n1("999999999"), n2("99999999999999999999999");
 
-    n1 = "-8999999999999999999999999";
-    n2 = "9000000000000000000001231";
+    n1 = "111111111";
+    n2 = "111111111";
 
     cout << n1 + n2 << endl;
     cout << n1 - n2 << endl;
-    n1 = "9999";
-    n2 = "995437895792999999923199";
-    cout << n1 * n2 << endl;
-    cout << multiply(n1.getValue(), n2.getValue()) << endl;
+//    n1 = "0";
+//    n2 = "0";
+    string result;
+    DWORD start, end;
+    DWORD totalTime;
+
+    start = GetTickCount();
+    result = n1 * n2;
+    end = GetTickCount();
+    cout << result << endl;
+    cout << "分治法时间: " << end - start << endl;
+
+    start = GetTickCount();
+    result = multiply(n1.getValue(), n2.getValue());
+    end = GetTickCount();
+    cout << result << endl;
+    cout << "模拟手算时间: " << end - start << endl;
+
+//    cout <<  << endl;
     return 0;
 }
